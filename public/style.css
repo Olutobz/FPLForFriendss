@@ -12,6 +12,7 @@ body {
   width: 90%;
   max-width: 1000px;
   margin: 60px auto;
+  padding: 0 10px;
 }
 
 .card {
@@ -39,6 +40,7 @@ body {
   justify-content: center;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
   margin-bottom: 10px;
 }
 
@@ -88,8 +90,27 @@ h2 {
   margin-bottom: 0.3rem;
 }
 
+.table-hint {
+  font-size: 0.95rem;
+  color: #f1c40f;
+  margin: 10px 0 16px;
+  font-weight: 500;
+  background: rgba(241, 196, 15, 0.1);
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: inline-block;
+  text-align: center;
+}
+
+.table-wrapper {
+  overflow-x: auto; /* horizontal scroll for small screens */
+  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+  margin-bottom: 30px;
+}
+
 table {
   width: 100%;
+  min-width: 600px; /* ensures scroll appears when needed */
   margin-top: 25px;
   border-collapse: collapse;
   background: rgba(255, 255, 255, 0.05);
@@ -102,6 +123,7 @@ th, td {
   padding: 14px 10px;
   border-bottom: 1px solid #333;
   font-size: 0.95rem;
+  min-width: 100px;
 }
 
 th {
@@ -119,19 +141,19 @@ table:nth-of-type(2) th {
   background: #34495e;
 }
 
-@media (max-width: 600px) {
-  .input-section {
-    flex-direction: column;
-  }
-  input, button {
-    width: 100%;
-  }
-}
-
+/* Sortable column styles */
 th.sortable {
   cursor: pointer;
   transition: color 0.2s ease, background 0.2s ease;
   color: #2ecc71;
+  position: relative;
+}
+
+th.sortable::after {
+  content: '⇅'; /* small sort icon */
+  font-size: 0.7rem;
+  margin-left: 6px;
+  color: #f1c40f;
 }
 
 th.sortable:hover {
@@ -144,16 +166,18 @@ th.active-sort {
   color: #fff;
 }
 
-.table-hint {
-  font-size: 0.95rem;
-  color: #f1c40f;
-  margin: 10px 0 16px;
-  font-weight: 500;
-  background: rgba(241, 196, 15, 0.1);
-  padding: 8px 12px;
-  border-radius: 8px;
-  display: inline-block;
-  text-align: center;
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  .input-section {
+    flex-direction: column;
+  }
+  input, button {
+    width: 100%;
+  }
+  th, td {
+    font-size: 0.85rem;
+    padding: 10px 5px;
+  }
 }
 
 .footer {

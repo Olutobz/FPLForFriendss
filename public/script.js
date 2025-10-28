@@ -138,3 +138,112 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+document.addEventListener("DOMContentLoaded", () => {
+  const fetchBtn = document.getElementById("fetchBtn");
+  const leagueInput = document.getElementById("leagueId");
+  const output = document.getElementById("output");
+  const tableHint = document.getElementById("tableHint");
+
+  async function loadLeague(leagueId) {
+    const res = await fetch(`/api/league/${leagueId}`);
+    if (!res.ok) throw new Error("League not found");
+    return await res.json();
+  }
+
+  function generateTableHTML(title, teams, isGWTop = false) {
+    const tableId = isGWTop ? "gwTable" : "totalTable";
+
+    let html = `<h2>${title}</h2>`;
+    html += `<div class="table-wrapper">`;
+    html += `<table id="${tableId}"><thead><tr>
+        <th>Rank</th>
+        <th>Team</th>
+        <th>Manager</th>
+        <th class="sortable">Total Points</th>
+        <th class="sortable gw-header">GW Points (Net)</th>
+        <th>Raw Points</th>
+        <th>Transfer Hit</th>
+      </tr></thead><tbody>`;
+
+    teams.forEach((team) => {
+      html += `<tr style="${isGWTop ? 'background: rgba(46,204,113,0.1);' : ''}">
+          <td>${team.rank}</td>
+          <td>${team.entry_name}</td>
+          <td>${team.player_name}</td>
+          <td>${team.totalPoints}</td>
+          <td>${team.gwPoints}</td>
+          <td>${team.rawPoints}</td>
+          <td>${team.transferCost > 0 ? `-${team.transferCost}` : "—"}</td>
+        </tr>`;
+    });
+
+    html += "</tbody></table></div>";
+    return html;
+  }
+
+  function addGWSortListener(tableId) {
+    const table = document.getElementById(tableId);
+    if (!table) return;
+
+    const gwHeader = table.querySelector(".gw-header");
+    let asc = false;
+
+    gwHeader.addEventListener("click", () => {
+      const tbody = table.querySelector("tbody");
+      const rows = Array.from(tbody.querySelectorAll("tr"));
+
+      rows.sort((a, b) => {
+        const aPoints = parseInt(a.cells[4].innerText) || 0;
+        const bPoints = parseInt(b.cells[4].innerText) || 0;
+        return asc ? aPoints - bPoints : bPoints - aPoints;
+      });
+
+      rows.forEach((row) => tbody.appendChild(row));
+      asc = !asc;
+    });
+  }
+
+  fetchBtn.addEventListener("click", async () => {
+    const leagueId = leagueInput.value.trim();
+    if (!leagueId) {
+      output.innerHTML = "<p style='color:#f88;'>Please enter a valid League ID.</p>";
+      return;
+    }
+
+    output.innerHTML = "<p>Loading league standings...</p>";
+    tableHint.style.display = "none";
+
+    try {
+      const data = await loadLeague(leagueId);
+      if (!data || !data.standings) {
+        output.innerHTML = "<p>League not found or no data available.</p>";
+        return;
+      }
+
+      const allTeams = [...data.standings].sort((a, b) => a.rank - b.rank);
+      const top3 = [...data.standings]
+        .sort((a, b) => b.gwPoints - a.gwPoints)
+        .slice(0, 3);
+
+      let html = generateTableHTML(
+        `${data.league.name} — Gameweek ${data.currentGameweek}`,
+        allTeams
+      );
+
+      html += generateTableHTML(
+        `🔥 Top 3 Performers — GW ${data.currentGameweek}`,
+        top3,
+        true
+      );
+
+      output.innerHTML = html;
+
+      tableHint.style.display = "block";
+
+      addGWSortListener("totalTable");
+    } catch (err) {
+      console.error(err);
+      output.innerHTML = "<p style='color:#f88;'>Failed to fetch league data.</p>";
+    }
+  });
+});
