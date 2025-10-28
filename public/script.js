@@ -12,11 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchBtn.addEventListener("click", async () => {
     const leagueId = leagueInput.value.trim();
     if (!leagueId) {
-      output.innerHTML = "<p style='color:#f88;'>⚠️ Please enter a valid League ID.</p>";
+      output.innerHTML = "<p style='color:#f88;'>Please enter a valid League ID.</p>";
       return;
     }
 
-    output.innerHTML = "<p>⏳ Loading league standings...</p>";
+    output.innerHTML = "<p>Loading league standings...</p>";
 
     try {
       const data = await loadLeague(leagueId);
@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
       output.innerHTML = html;
     } catch (err) {
       console.error(err);
-      output.innerHTML = "<p style='color:#f88;'>❌ Failed to fetch league data.</p>";
+      output.innerHTML = "<p style='color:#f88;'>Failed to fetch league data.</p>";
     }
   });
 });

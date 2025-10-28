@@ -9,15 +9,12 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Serve frontend files
 app.use(express.static(path.join(__dirname, "public")));
 
-// 🧩 API route: Fetch FPL league data
 app.get("/api/league/:leagueId", async (req, res) => {
   try {
     const { leagueId } = req.params;
 
-    // 1️⃣ Fetch league standings
     const leagueRes = await fetch(
       `https://fantasy.premierleague.com/api/leagues-classic/${leagueId}/standings/`
     );
@@ -26,7 +23,6 @@ app.get("/api/league/:leagueId", async (req, res) => {
 
     const standings = leagueData?.standings?.results || [];
 
-    // 2️⃣ Fetch current gameweek info
     const bootstrapRes = await fetch(
       "https://fantasy.premierleague.com/api/bootstrap-static/"
     );
@@ -34,7 +30,6 @@ app.get("/api/league/:leagueId", async (req, res) => {
     const currentEvent = bootstrapData.events.find((e) => e.is_current);
     const currentGameweek = currentEvent?.id ?? bootstrapData.events.find((e) => e.is_next)?.id ?? 1;
 
-    // 3️⃣ Fetch each manager's current GW stats
     const teamData = await Promise.all(
       standings.map(async (m) => {
         try {
@@ -79,10 +74,9 @@ app.get("/api/league/:leagueId", async (req, res) => {
   }
 });
 
-// ✅ Run only locally (Vercel handles it automatically in production)
 if (process.env.NODE_ENV !== "production") {
   app.listen(PORT, () =>
-    console.log(`✅ Server running locally at http://localhost:${PORT}`)
+    console.log(`Server running locally at http://localhost:${PORT}`)
   );
 }
 
