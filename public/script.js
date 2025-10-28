@@ -26,9 +26,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const allTeams = [...data.standings].sort((a, b) => a.rank - b.rank);
-      const top4 = [...data.standings]
+      const top3 = [...data.standings]
         .sort((a, b) => b.gwPoints - a.gwPoints)
-        .slice(0, 4);
+        .slice(0, 3);
 
       let html = `
         <h2>${data.league.name}</h2>
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </tbody>
         </table>
 
-        <h3 style="margin-top: 40px; color:#2ecc71;">🔥 Top 4 Performers — GW ${data.currentGameweek}</h3>
+        <h3 style="margin-top: 40px; color:#2ecc71;">🔥 Top 3 Performers — GW ${data.currentGameweek}</h3>
         <table>
           <thead>
             <tr>
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <tbody>
       `;
 
-      top4.forEach((team) => {
+      top3.forEach((team) => {
         html += `
           <tr style="background: rgba(46, 204, 113, 0.1);">
             <td>${team.rank}</td>
