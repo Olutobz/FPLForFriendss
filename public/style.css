@@ -128,7 +128,6 @@ table:nth-of-type(2) th {
   }
 }
 
-/* Make sortable column obvious */
 th.sortable {
   cursor: pointer;
   transition: color 0.2s ease, background 0.2s ease;
@@ -140,9 +139,38 @@ th.sortable:hover {
   color: #fff;
 }
 
-/* When active (sorted) */
 th.active-sort {
   background: rgba(46, 204, 113, 0.3);
   color: #fff;
 }
 
+.table-hint {
+  font-size: 0.95rem;
+  color: #f1c40f;
+  margin: 10px 0 16px;
+  font-weight: 500;
+  background: rgba(241, 196, 15, 0.1);
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: inline-block;
+  text-align: center;
+}
+
+.footer {
+  margin-top: 50px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #aaa;
+  opacity: 0.8;
+}
+
+.footer .author {
+  color: #2ecc71;
+  font-weight: 600;
+}
+
+.footer p:hover {
+  opacity: 1;
+  transform: scale(1.03);
+  transition: all 0.2s ease-in-out;
+}

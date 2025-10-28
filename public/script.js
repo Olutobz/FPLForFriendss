@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let gwSortDescending = true;
 
-  // Fetch league data
   async function loadLeague(leagueId) {
     try {
       const res = await fetch(`/api/league/${leagueId}`);
@@ -13,12 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
       return await res.json();
     } catch (err) {
       console.error("Fetch error:", err);
-      output.innerHTML = `<p style="color:#f88;">⚠️ Failed to fetch league data.</p>`;
+      output.innerHTML = `<p style="color:#f88;">Failed to fetch league data.</p>`;
       return null;
     }
   }
 
-  // Render tables
   function renderTables(data) {
     const standings = [...data.standings];
     const top3 = [...standings].sort((a, b) => b.gwPoints - a.gwPoints).slice(0, 3);
@@ -26,6 +24,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let html = `
       <h2>${data.league.name}</h2>
       <p>Gameweek ${data.currentGameweek}</p>
+
+      <p class="table-hint"> FYI: You can click on the “GW Points (Net)” column to sort scores (ascending/descending).</p>
 
       <table id="mainTable">
         <thead>
@@ -89,7 +89,6 @@ document.addEventListener("DOMContentLoaded", () => {
     html += `</tbody></table>`;
     output.innerHTML = html;
 
-    // Add sorting functionality
     const gwHeader = document.getElementById("gwHeader");
     const gwArrow = document.getElementById("gwArrow");
 
@@ -101,7 +100,6 @@ document.addEventListener("DOMContentLoaded", () => {
       gwSortDescending = !gwSortDescending;
       gwArrow.textContent = gwSortDescending ? "⬇" : "⬆";
 
-      // Re-render only tbody
       const tbody = document.querySelector("#mainTable tbody");
       tbody.innerHTML = sorted
         .map(
@@ -118,17 +116,15 @@ document.addEventListener("DOMContentLoaded", () => {
         )
         .join("");
 
-      // Highlight active column
       document.querySelectorAll("th").forEach((th) => th.classList.remove("active-sort"));
       gwHeader.classList.add("active-sort");
     });
   }
 
-  // Button click handler
   fetchBtn.addEventListener("click", async () => {
     const leagueId = leagueInput.value.trim();
     if (!leagueId) {
-      output.innerHTML = `<p style="color:#f88;">⚠️ Please enter a valid League ID.</p>`;
+      output.innerHTML = `<p style="color:#f88;">Please enter a valid League ID.</p>`;
       return;
     }
 
@@ -138,7 +134,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (data && data.standings) {
       renderTables(data);
     } else {
-      output.innerHTML = `<p style="color:#f88;">⚠️ No league data found.</p>`;
+      output.innerHTML = `<p style="color:#f88;">No league data found.</p>`;
     }
   });
 });
