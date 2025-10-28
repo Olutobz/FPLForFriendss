@@ -127,3 +127,22 @@ table:nth-of-type(2) th {
     width: 100%;
   }
 }
+
+/* Make sortable column obvious */
+th.sortable {
+  cursor: pointer;
+  transition: color 0.2s ease, background 0.2s ease;
+  color: #2ecc71;
+}
+
+th.sortable:hover {
+  background: rgba(46, 204, 113, 0.15);
+  color: #fff;
+}
+
+/* When active (sorted) */
+th.active-sort {
+  background: rgba(46, 204, 113, 0.3);
+  color: #fff;
+}
+
