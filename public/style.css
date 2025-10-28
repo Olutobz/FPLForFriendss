@@ -1,60 +1,129 @@
 body {
-  font-family: system-ui, sans-serif;
-  background: #0e1116;
+  font-family: "Inter", system-ui, sans-serif;
+  background: linear-gradient(135deg, #0d1117, #1c1f26);
   color: #fff;
   text-align: center;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
 }
 
 .container {
-  margin: 40px auto;
   width: 90%;
-  max-width: 900px;
+  max-width: 1000px;
+  margin: 60px auto;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 2rem 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #2ecc71;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: #aaa;
+  margin-bottom: 20px;
+}
+
+.input-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
 input {
-  padding: 10px;
+  padding: 12px 16px;
   border: none;
-  border-radius: 6px;
-  width: 250px;
+  border-radius: 8px;
+  width: 280px;
+  background: #2a2e38;
+  color: #fff;
+  font-size: 1rem;
+}
+
+input::placeholder {
+  color: #aaa;
 }
 
 button {
-  padding: 10px 20px;
+  padding: 12px 20px;
   background: #2ecc71;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   color: white;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  margin-left: 8px;
+  transition: all 0.25s ease;
+}
+
+button:hover {
+  background: #27ae60;
+  transform: scale(1.05);
+}
+
+.hint {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.output {
+  margin-top: 30px;
+  text-align: center;
+}
+
+h2 {
+  color: #2ecc71;
+  margin-bottom: 0.3rem;
 }
 
 table {
-  margin-top: 25px;
   width: 100%;
+  margin-top: 25px;
   border-collapse: collapse;
-  background: #1c1f26;
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 th, td {
-  padding: 10px;
+  padding: 14px 10px;
   border-bottom: 1px solid #333;
+  font-size: 0.95rem;
 }
 
 th {
-  background: #2a2e38;
+  background: rgba(255, 255, 255, 0.08);
+  font-weight: 600;
+  color: #2ecc71;
 }
 
 tr:hover {
-  background: #20232a;
-}
-
-h3 {
-  margin-top: 40px;
-  color: #2ecc71;
+  background: rgba(255, 255, 255, 0.08);
+  transition: 0.2s;
 }
 
 table:nth-of-type(2) th {
   background: #34495e;
+}
+
+@media (max-width: 600px) {
+  .input-section {
+    flex-direction: column;
+  }
+  input, button {
+    width: 100%;
+  }
 }

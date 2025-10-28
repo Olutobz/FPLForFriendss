@@ -2,20 +2,35 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>FPL Friends League</title>
+    <title>⚽ FPL Friends League</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div class="container">
-      <h1>⚽ FPL Friends League</h1>
-      <input
-        type="text"
-        id="leagueId"
-        placeholder="Enter your League ID"
-      />
-      <button id="fetchBtn">Show League</button>
-      <div id="output"></div>
+      <div class="card">
+        <h1 class="title">⚽ FPL Friends League</h1>
+        <p class="subtitle">
+          Check your league standings, weekly points, and top performers.
+        </p>
+        <div class="input-section">
+          <input
+            type="text"
+            id="leagueId"
+            placeholder="Enter your League ID"
+          />
+          <button id="fetchBtn">Show Standings</button>
+        </div>
+        <p class="hint">
+          💡 Tip: Save your league ID to access it faster next time.
+        </p>
+      </div>
+
+      <!-- Where the table and results will appear -->
+      <div id="output" class="output"></div>
     </div>
+
+    <!-- ✅ Load JS at end so DOM is ready -->
     <script src="script.js"></script>
   </body>
 </html>
